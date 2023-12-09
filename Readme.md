@@ -1,7 +1,7 @@
 # Hospital Management System API
 
 ## Description
-This is a simple API for a hospital management system deployed on Railway. It is built using Go and Gin. The database used is PlanetScale/MySQL. The API is deployed on Railway and can be accessed [here](https://hospital-management-system-api.railway.app/).
+This is a simple API for a hospital management system deployed on Railway. It is built using Go and Gin. The database used is PlanetScale/MySQL. The API is deployed on Railway and can be accessed [here](https://hospital-api.up.railway.app/patients).
 
 ## Documentation
 The documentation for this API can be found [here](https://documenter.getpostman.com/view/26210548/2s9YkgEkcX).
