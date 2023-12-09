@@ -82,14 +82,9 @@ func CreateBill(c *gin.Context) {
 
 	bill.PatientID = data.PatientID
 
-	// get current date
-	current_date := time.Now()
-
-	// get admission date
-	admission_date := patient.StartDate
-
-	// get difference between current date and admission date
-	difference := current_date.Sub(admission_date)
+	currentDate := time.Now()
+	startDate, _ := time.Parse("2006-01-02", patient.StartDate)
+	difference := currentDate.Sub(startDate)
 
 	// convert difference to days
 	days := difference.Hours() / 24
