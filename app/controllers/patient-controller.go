@@ -4,7 +4,6 @@ import (
 	"main/app/models"
 	"main/config"
 	"strconv"
-	"time"
 
 	"github.com/gin-gonic/gin"
 	"gorm.io/gorm"
@@ -22,7 +21,7 @@ type patientRequest struct {
 	BirthDate   string          `json:"birth_date" binding:"required"`
 	Address     string          `json:"address" binding:"required"`
 	Disease     string          `json:"disease" binding:"required"`
-	StartDate   time.Time       `json:"start_date" binding:"required"`
+	StartDate   string          `json:"start_date" binding:"required"`
 	DoctorID    uint            `json:"doctor_id" binding:"required"`
 	RoomID      uint            `json:"room_id" binding:"required"`
 	TreatmentID uint            `json:"treatment_id" binding:"required"`
@@ -40,7 +39,7 @@ var patient_val = g.Validator(patientRequest{})
 func GetPatients(c *gin.Context) {
 	var patients []models.Patient
 
-	result := db.Preload("Doctor").Preload("Room").Preload("Treatment").Preload("Numbers").Preload("Nurses").Find(&patients)
+	result := db.Preload("Doctor").Preload("Room").Find(&patients)
 
 	if result.Error != nil {
 		c.JSON(400, gin.H{"error": result.Error})
@@ -131,7 +130,7 @@ func CreatePatient(c *gin.Context) {
 	response.BirthDate = patient.BirthDate
 	response.Address = patient.Address
 	response.Disease = patient.Disease
-	response.StartDate = patient.StartDate
+	response.StartDate = data.StartDate
 	response.DoctorID = patient.DoctorID
 	response.RoomID = patient.RoomID
 	response.TreatmentID = patient.TreatmentID

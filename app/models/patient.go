@@ -1,7 +1,5 @@
 package models
 
-import "time"
-
 type Patient struct {
 	// gorm.Model
 	ID          uint `gorm:"primaryKey"`
@@ -9,7 +7,7 @@ type Patient struct {
 	BirthDate   string
 	Address     string
 	Disease     string
-	StartDate   time.Time
+	StartDate   string
 	DoctorID    uint
 	RoomID      uint
 	TreatmentID uint
