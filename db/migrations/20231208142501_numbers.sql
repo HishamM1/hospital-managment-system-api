@@ -4,7 +4,7 @@ CREATE TABLE numbers (
 	patient_id INT,
 	number VARCHAR(20) NOT NULL,
 	description VARCHAR(50) NOT NULL,
-	FOREIGN KEY (patient_id) REFERENCES Patients(id)
+	FOREIGN KEY (patient_id) REFERENCES patients(id)
 );
 
 -- migrate:down

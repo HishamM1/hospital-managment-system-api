@@ -4,7 +4,7 @@ CREATE TABLE rooms (
     wardboy_id INT,
     type VARCHAR(255) NOT NULL,
     number INT NOT NULL,
-    FOREIGN KEY (wardboy_id) REFERENCES WardBoys(id)
+    FOREIGN KEY (wardboy_id) REFERENCES wardboys(id)
 );
 
 -- migrate:down

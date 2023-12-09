@@ -9,9 +9,9 @@ CREATE TABLE patients (
     doctor_id INT,
     room_id INT,
     treatment_id INT,
-    FOREIGN KEY (doctor_id) REFERENCES Doctors(id),
-    FOREIGN KEY (room_id) REFERENCES Rooms(id),
-    FOREIGN KEY (treatment_id) REFERENCES Treatments(id)
+    FOREIGN KEY (doctor_id) REFERENCES doctors(id),
+    FOREIGN KEY (room_id) REFERENCES rooms(id),
+    FOREIGN KEY (treatment_id) REFERENCES treatments(id)
 );
 
 -- migrate:down

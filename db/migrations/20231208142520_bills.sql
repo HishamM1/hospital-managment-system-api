@@ -4,7 +4,7 @@ CREATE TABLE bills (
     patient_id INT,
     amount DECIMAL(10, 2) NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (patient_id) REFERENCES Patients(id)
+    FOREIGN KEY (patient_id) REFERENCES patients(id)
 );
 
 -- migrate:down
