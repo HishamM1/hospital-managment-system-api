@@ -44,7 +44,7 @@ var patient_val = g.Validator(patientRequest{})
 func GetPatients(c *gin.Context) {
 	var patients []models.Patient
 
-	result := db.Preload("Doctor").Preload("Room").Find(&patients)
+	result := db.Preload("Doctor").Preload("Room").Preload("Treatment").Preload("Numbers").Preload("Nurses").Find(&patients)
 
 	if result.Error != nil {
 		c.JSON(400, gin.H{"error": result.Error})
