@@ -8,13 +8,13 @@ import (
 )
 
 type NurseRequest struct {
-	Name string `json:"name" binding:"required,min=1,max=255" required:"$field is required" min:"$field must be at least 1 characters" max:"$field must be at most 255 characters"`
+	Name string `json:"Name" binding:"required,min=1,max=255" required:"$field is required" min:"$field must be at least 1 characters" max:"$field must be at most 255 characters"`
 }
 
 type NurseResponse struct {
 	NurseRequest
-	ID   uint   `json:"id"`
-	Name string `json:"name"`
+	ID   uint   `json:"ID"`
+	Name string `json:"Name"`
 }
 
 var nurse_val = g.Validator(NurseRequest{})

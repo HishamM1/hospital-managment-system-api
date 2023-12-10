@@ -8,15 +8,15 @@ import (
 )
 
 type roomRequest struct {
-	Type      string `json:"type" binding:"required,min=1,max=255" required:"$field is required" min:"$field must be at least 1 characters" max:"$field must be at most 255 characters"`
-	Number    string `json:"number" binding:"required" required:"$field is required"`
-	WardboyID uint   `json:"wardboy_id" binding:"required" required:"$field is required"`
+	Type      string `json:"Type" binding:"required,min=1,max=255" required:"$field is required" min:"$field must be at least 1 characters" max:"$field must be at most 255 characters"`
+	Number    string `json:"Number" binding:"required" required:"$field is required"`
+	WardboyID uint   `json:"WardboyID" binding:"required" required:"$field is required"`
 }
 
 type roomResponse struct {
 	roomRequest
-	ID      uint           `json:"id"`
-	Wardboy models.Wardboy `json:"wardboy"`
+	ID      uint           `json:"ID"`
+	Wardboy models.Wardboy `json:"Wardboy"`
 }
 
 var room_val = g.Validator(roomRequest{})

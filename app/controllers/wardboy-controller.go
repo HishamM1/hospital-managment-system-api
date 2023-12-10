@@ -8,12 +8,12 @@ import (
 )
 
 type wardboyRequest struct {
-	Name string `json:"name" binding:"required,min=3,max=255" required:"$field is required" min:"$field must be at least 3 characters" max:"$field must be at most 255 characters"`
+	Name string `json:"Name" binding:"required,min=3,max=255" required:"$field is required" min:"$field must be at least 3 characters" max:"$field must be at most 255 characters"`
 }
 
 type wardboyResponse struct {
 	wardboyRequest
-	ID uint `json:"id"`
+	ID uint `json:"ID"`
 }
 
 func CreateWardboy(c *gin.Context) {

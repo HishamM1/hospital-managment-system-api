@@ -12,26 +12,31 @@ import (
 var db *gorm.DB = config.ConnectDB()
 
 type numberRequest struct {
-	Number      string `json:"number" binding:"required,min=1,max=255"`
-	Description string `json:"description" binding:"required,min=1,max=255"`
+	Number      string `json:"Number" binding:"required,min=1,max=255"`
+	Description string `json:"Description" binding:"required,min=1,max=255"`
 }
 
 type patientRequest struct {
-	Name        string          `json:"name" binding:"required"`
-	BirthDate   string          `json:"birth_date" binding:"required"`
-	Address     string          `json:"address" binding:"required"`
-	Disease     string          `json:"disease" binding:"required"`
-	StartDate   string          `json:"start_date" binding:"required"`
-	DoctorID    uint            `json:"doctor_id" binding:"required"`
-	RoomID      uint            `json:"room_id" binding:"required"`
-	TreatmentID uint            `json:"treatment_id" binding:"required"`
-	Numbers     []numberRequest `json:"numbers" binding:"required"`
-	Nurses      []uint          `json:"nurses" binding:"required"`
+	Name        string          `json:"Name" binding:"required"`
+	BirthDate   string          `json:"BirthDate" binding:"required"`
+	Address     string          `json:"Address" binding:"required"`
+	Disease     string          `json:"Disease" binding:"required"`
+	StartDate   string          `json:"StartDate" binding:"required"`
+	DoctorID    uint            `json:"DoctorID" binding:"required"`
+	RoomID      uint            `json:"RoomID" binding:"required"`
+	TreatmentID uint            `json:"TreatmentID" binding:"required"`
+	Numbers     []numberRequest `json:"Numbers" binding:"required"`
+	Nurses      []uint          `json:"Nurses" binding:"required"`
 }
 
 type patientResponse struct {
 	patientRequest
-	ID uint `json:"id"`
+	ID        uint             `json:"ID"`
+	Numbers   []models.Number  `json:"Numbers"`
+	Nurses    []models.Nurse   `json:"Nurses"`
+	Doctor    models.Doctor    `json:"Doctor"`
+	Room      models.Room      `json:"Room"`
+	Treatment models.Treatment `json:"Treatment"`
 }
 
 var patient_val = g.Validator(patientRequest{})
@@ -69,6 +74,19 @@ func GetPatient(c *gin.Context) {
 		c.JSON(400, gin.H{"error": result.Error})
 		return
 	}
+
+	var response patientResponse
+	response.ID = patient.ID
+	response.Name = patient.Name
+	response.BirthDate = patient.BirthDate
+	response.Address = patient.Address
+	response.Disease = patient.Disease
+	response.StartDate = patient.StartDate
+	response.Doctor = *patient.Doctor
+	response.Room = *patient.Room
+	response.Treatment = *patient.Treatment
+	response.Numbers = []models.Number{}
+	response.Nurses = []models.Nurse{}
 
 	c.JSON(200, patient)
 }
@@ -124,20 +142,7 @@ func CreatePatient(c *gin.Context) {
 		return
 	}
 
-	var response patientResponse
-	response.ID = patient.ID
-	response.Name = patient.Name
-	response.BirthDate = patient.BirthDate
-	response.Address = patient.Address
-	response.Disease = patient.Disease
-	response.StartDate = data.StartDate
-	response.DoctorID = patient.DoctorID
-	response.RoomID = patient.RoomID
-	response.TreatmentID = patient.TreatmentID
-	response.Numbers = data.Numbers
-	response.Nurses = data.Nurses
-
-	c.JSON(200, response)
+	c.JSON(200, patient)
 }
 
 func UpdatePatient(c *gin.Context) {

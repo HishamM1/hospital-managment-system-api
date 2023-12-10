@@ -8,12 +8,12 @@ import (
 )
 
 type treatmentRequest struct {
-	Type string `json:"type" binding:"required,min=1,max=255" required:"$field is required" min:"$field must be at least 1 characters" max:"$field must be at most 255 characters"`
+	Type string `json:"Type" binding:"required,min=1,max=255" required:"$field is required" min:"$field must be at least 1 characters" max:"$field must be at most 255 characters"`
 }
 
 type treatmentResponse struct {
 	treatmentRequest
-	ID uint `json:"id"`
+	ID uint `json:"ID"`
 }
 
 var treatment_val = g.Validator(treatmentRequest{})

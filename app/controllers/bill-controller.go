@@ -9,9 +9,9 @@ import (
 )
 
 type billRequest struct {
-	PatientID uint      `json:"patient_id" binding:"required"`
-	Amount    float64   `json:"amount"`
-	CreatedAt time.Time `json:"created_at"`
+	PatientID uint      `json:"PatientID" binding:"required"`
+	Amount    float64   `json:"Amount"`
+	CreatedAt time.Time `json:"CreatedAt"`
 }
 
 type billResponse struct {

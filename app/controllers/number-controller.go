@@ -8,9 +8,9 @@ import (
 )
 
 type NumberRequest struct {
-	PatientID   uint   `json:"patient_id" binding:"required"`
-	Number      string `json:"number" binding:"required,min=1,max=255"`
-	Description string `json:"description" binding:"required,min=1,max=255"`
+	PatientID   uint   `json:"PatiendID" binding:"required"`
+	Number      string `json:"Number" binding:"required,min=1,max=255"`
+	Description string `json:"Description" binding:"required,min=1,max=255"`
 }
 
 type NumberResponse struct {
