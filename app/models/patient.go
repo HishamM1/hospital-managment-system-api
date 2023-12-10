@@ -14,6 +14,6 @@ type Patient struct {
 	Doctor      *Doctor
 	Room        *Room
 	Treatment   *Treatment
-	Numbers     []*Number
+	Numbers     *Number
 	Nurses      []*Nurse `gorm:"many2many:patient_nurses;"`
 }
