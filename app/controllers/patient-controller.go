@@ -12,27 +12,27 @@ import (
 var db *gorm.DB = config.ConnectDB()
 
 type numberRequest struct {
-	Number      string `json:"Number" binding:"required,min=1,max=255"`
-	Description string `json:"Description" binding:"required,min=1,max=255"`
+	PatientNumber string `json:"PatientNumber" binding:"required,min=1,max=255"`
+	FamilyNumber  string `json:"FamilyNumber" binding:"required,min=1,max=255"`
 }
 
 type patientRequest struct {
-	Name        string          `json:"Name" binding:"required"`
-	BirthDate   string          `json:"BirthDate" binding:"required"`
-	Address     string          `json:"Address" binding:"required"`
-	Disease     string          `json:"Disease" binding:"required"`
-	StartDate   string          `json:"StartDate" binding:"required"`
-	DoctorID    uint            `json:"DoctorID" binding:"required"`
-	RoomID      uint            `json:"RoomID" binding:"required"`
-	TreatmentID uint            `json:"TreatmentID" binding:"required"`
-	Numbers     []numberRequest `json:"Numbers" binding:"required"`
-	Nurses      []uint          `json:"Nurses" binding:"required"`
+	Name        string        `json:"Name" binding:"required"`
+	BirthDate   string        `json:"BirthDate" binding:"required"`
+	Address     string        `json:"Address" binding:"required"`
+	Disease     string        `json:"Disease" binding:"required"`
+	StartDate   string        `json:"StartDate" binding:"required"`
+	DoctorID    uint          `json:"DoctorID" binding:"required"`
+	RoomID      uint          `json:"RoomID" binding:"required"`
+	TreatmentID uint          `json:"TreatmentID" binding:"required"`
+	Numbers     numberRequest `json:"Numbers" binding:"required"`
+	Nurses      []uint        `json:"Nurses" binding:"required"`
 }
 
 type patientResponse struct {
 	patientRequest
 	ID        uint             `json:"ID"`
-	Numbers   []models.Number  `json:"Numbers"`
+	Numbers   models.Number    `json:"Numbers"`
 	Nurses    []models.Nurse   `json:"Nurses"`
 	Doctor    models.Doctor    `json:"Doctor"`
 	Room      models.Room      `json:"Room"`
@@ -85,7 +85,7 @@ func GetPatient(c *gin.Context) {
 	response.Doctor = *patient.Doctor
 	response.Room = *patient.Room
 	response.Treatment = *patient.Treatment
-	response.Numbers = []models.Number{}
+	response.Numbers = models.Number{}
 	response.Nurses = []models.Nurse{}
 
 	c.JSON(200, patient)
@@ -126,12 +126,10 @@ func CreatePatient(c *gin.Context) {
 
 	result = db.Create(&patient)
 
-	for _, number := range data.Numbers {
-		db.Model(&patient).Association("Numbers").Append(&models.Number{
-			Number:      number.Number,
-			Description: number.Description,
-		})
-	}
+	db.Model(&patient).Association("Numbers").Append(&models.Number{
+		PatientNumber: data.Numbers.PatientNumber,
+		FamilyNumber:  data.Numbers.FamilyNumber,
+	})
 
 	for _, nurse := range nurses {
 		db.Model(&patient).Association("Nurses").Append(&nurse)
@@ -239,16 +237,10 @@ func UpdatePatient(c *gin.Context) {
 	db.Model(&patient).Association("Numbers").Find(&numbers)
 	db.Model(&patient).Association("Numbers").Clear()
 
-	for _, number := range numbers {
-		db.Delete(&number)
-	}
-
-	for _, number := range data.Numbers {
-		db.Model(&patient).Association("Numbers").Append(&models.Number{
-			Number:      number.Number,
-			Description: number.Description,
-		})
-	}
+	db.Model(&patient).Association("Numbers").Append(&models.Number{
+		PatientNumber: data.Numbers.PatientNumber,
+		FamilyNumber:  data.Numbers.FamilyNumber,
+	})
 
 	// delete nurses and assign new nurses
 	db.Model(&patient).Association("Nurses").Clear()

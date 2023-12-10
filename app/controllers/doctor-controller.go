@@ -14,7 +14,10 @@ var (
 )
 
 type doctorRequest struct {
-	Name string `json:"Name" binding:"required,min=3,max=255" required:"$field is required" min:"$field must be at least 3 characters" max:"$field must be at most 255 characters"`
+	Name           string `json:"Name" binding:"required,min=3,max=255" required:"$field is required" min:"$field must be at least 3 characters" max:"$field must be at most 255 characters"`
+	Email          string `json:"Email" binding:"required,email" required:"$field is required" email:"$field must be a valid email"`
+	Number         string `json:"Number" binding:"required,min=3,max=255" required:"$field is required" min:"$field must be at least 3 characters" max:"$field must be at most 255 characters"`
+	Specialization string `json:"Specialization" binding:"required,min=1,max=255" required:"$field is required" min:"$field must be at least 1 characters" max:"$field must be at most 255 characters"`
 }
 
 type doctorResponse struct {
@@ -32,6 +35,9 @@ func CreateDoctor(c *gin.Context) {
 
 	doctor := models.Doctor{}
 	doctor.Name = data.Name
+	doctor.Email = data.Email
+	doctor.Number = data.Number
+	doctor.Specialization = data.Specialization
 
 	result := db.Create(&doctor)
 
@@ -43,6 +49,9 @@ func CreateDoctor(c *gin.Context) {
 	var response doctorResponse
 	response.ID = doctor.ID
 	response.Name = doctor.Name
+	response.Email = doctor.Email
+	response.Number = doctor.Number
+	response.Specialization = doctor.Specialization
 
 	c.JSON(200, response)
 }
@@ -114,6 +123,9 @@ func UpdateDoctor(c *gin.Context) {
 	var response doctorResponse
 	response.ID = doctor.ID
 	response.Name = doctor.Name
+	response.Email = doctor.Email
+	response.Number = doctor.Number
+	response.Specialization = doctor.Specialization
 
 	c.JSON(200, response)
 }

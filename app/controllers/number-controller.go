@@ -8,14 +8,14 @@ import (
 )
 
 type NumberRequest struct {
-	PatientID   uint   `json:"PatiendID" binding:"required"`
-	Number      string `json:"Number" binding:"required,min=1,max=255"`
-	Description string `json:"Description" binding:"required,min=1,max=255"`
+	PatientID     uint   `json:"PatientID" binding:"required"`
+	PatientNumber string `json:"PatientNumber" binding:"required,min=1,max=255"`
+	FamilyNumber  string `json:"FamilyNumber" binding:"required,min=1,max=255"`
 }
 
 type NumberResponse struct {
 	NumberRequest
-	ID uint `json:"id"`
+	ID uint `json:"ID"`
 }
 
 var number_val = g.Validator(NumberRequest{})
@@ -76,8 +76,8 @@ func CreateNumber(c *gin.Context) {
 
 	number := models.Number{}
 	number.PatientID = data.PatientID
-	number.Number = data.Number
-	number.Description = data.Description
+	number.PatientNumber = data.PatientNumber
+	number.FamilyNumber = data.FamilyNumber
 
 	result = db.Create(&number)
 
@@ -89,8 +89,8 @@ func CreateNumber(c *gin.Context) {
 	var response NumberResponse
 	response.ID = number.ID
 	response.PatientID = number.PatientID
-	response.Number = number.Number
-	response.Description = number.Description
+	response.PatientNumber = number.PatientNumber
+	response.FamilyNumber = number.FamilyNumber
 
 	c.JSON(200, response)
 }
@@ -132,8 +132,8 @@ func UpdateNumber(c *gin.Context) {
 	}
 
 	number.PatientID = data.PatientID
-	number.Number = data.Number
-	number.Description = data.Description
+	number.PatientNumber = data.PatientNumber
+	number.FamilyNumber = data.FamilyNumber
 
 	result = db.Save(&number)
 
@@ -145,8 +145,8 @@ func UpdateNumber(c *gin.Context) {
 	var response NumberResponse
 	response.ID = number.ID
 	response.PatientID = number.PatientID
-	response.Number = number.Number
-	response.Description = number.Description
+	response.PatientNumber = number.PatientNumber
+	response.FamilyNumber = number.FamilyNumber
 
 	c.JSON(200, response)
 }
